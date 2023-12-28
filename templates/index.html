@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="file_upload_and_download">
+        <form action="/upload" method="post" enctype=multipart/form-data >
+            <input type="file" name="file">
+            <input type="submit" value="Submit">
+        </form>
+        {% for file in uploaded_files %}
+            <table>
+                <tr>
+                    <td><img src="{{ url_for('static', filename='uploads/' + file) }}" alt="Example Image"></td>
+                    <td>
+                        <form action="{{ url_for('download') }}" method="post">
+                            <input type="hidden" name="filename" value="{{ file }}">
+                            <input type="submit" value="Download">
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        {% endfor %}
+    </div>
+
+</body>
+</html>
