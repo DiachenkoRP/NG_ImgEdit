@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static', filename = 'CSS/editor_styles.css' )}}">
+    <title>Editor</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js"></script>
+</head>
+<body>
+    
+    <div class="editor-base">
+        <div class="editor-tools">
+            <div id="mouse-coordinates"></div>
+        </div>
+        <div class="editor-field">
+            <img src="{{url_for('static', filename='uploads/' + filename)}}" alt="Editing Image" id="EditingImage">
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var editingImage = document.getElementById("EditingImage");
+            var coordinatesDisplay = document.getElementById("mouse-coordinates");
+
+            // Підключення до серверу WebSocket
+            var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+            editingImage.addEventListener("mousemove", function (e) {
+                var x = e.offsetX;
+                var y = e.offsetY;
+
+                coordinatesDisplay.innerHTML = "Mouse Coordinates: (" + x + "px, " + y + "px)";
+
+                socket.emit('mousemove', { 'x': x, 'y': y });
+            });
+        });
+    </script>
+</body>
+</html>

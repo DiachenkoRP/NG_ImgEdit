@@ -11,14 +11,26 @@
             <input type="file" name="file">
             <input type="submit" value="Submit">
         </form>
-        {% for file in uploaded_files %}
+        {% for filename in uploaded_files %}
             <table>
                 <tr>
-                    <td><img src="{{ url_for('static', filename='uploads/' + file) }}" alt="Example Image"></td>
                     <td>
-                        <form action="{{ url_for('download') }}" method="post">
-                            <input type="hidden" name="filename" value="{{ file }}">
+                        <img src="{{ url_for('static', filename = 'uploads/' + filename  ) }}" alt="Some Image">
+                    </td>
+                    <td>{{filename}}</td>
+                    <td>
+                        <form action="{{ url_for('download', filename = filename  ) }}" method="post">
                             <input type="submit" value="Download">
+                        </form>
+                    </td>
+                    <td>
+                        <form action="{{ url_for('edit', filename = filename ) }}" method="post">
+                            <input type="submit" value="Edit">
+                        </form>
+                    </td>
+                    <td>
+                        <form action="{{ url_for('delete', filename = filename ) }}" method="post">
+                            <input type="submit" value="Delete">
                         </form>
                     </td>
                 </tr>
